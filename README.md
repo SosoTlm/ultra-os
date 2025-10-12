@@ -8,12 +8,17 @@ OS complet fait en python pour tout les systemes!
 
 **Version 2.0 Fennec Fox (actuel)**:
 ![SCREENSHOT1_2](screenshots/abs.png)
-![SCREENSHOT1_2](screenshots/abcs.png)
+![SCREENSHOT2_2](screenshots/abcs.png)
+
+**Version 2.023 Sunsettling (beta preview)**:
+![SCREENSHOT1_3](screenshots/abcds.png)
+![SCREENSHOT2_3](screenshots/abcdes.png)
+
 
 ## Dépendances:
-Tkinter
-PSUtil
-**__Pillow et CustomTkinter pour la version Sunsettling__**
+- Tkinter
+- PSUtil
+- **__Pillow et CustomTkinter pour la version Sunsettling__**
 
 ## Informations
 UltraOS est un système d'éxploitation écrit en Python en
