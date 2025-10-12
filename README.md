@@ -11,9 +11,9 @@ OS complet fait en python pour tout les systemes!
 ![SCREENSHOT1_2](screenshots/abcs.png)
 
 ## Dépendances:
-Python
 Tkinter
 PSUtil
+**__Pillow et CustomTkinter pour la version Sunsettling__**
 
 ## Informations
 UltraOS est un système d'éxploitation écrit en Python en
