@@ -19,6 +19,7 @@ OS complet fait en python pour tout les systemes!
 - Tkinter
 - PSUtil
 - **__Pillow et CustomTkinter pour la version Sunsettling__**
+- ***__NEW__*** TKHTMLVIEW pour le support web partial (Beta seulement)
 
 ## Informations
 UltraOS est un système d'éxploitation écrit en Python en
