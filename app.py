@@ -77,36 +77,28 @@ class UltraOS:
         self._start_clock()
     
     def _setup_ui(self):
-        # Main container
         self.main = ctk.CTkFrame(self.root, fg_color=COLORS["bg"])
         self.main.pack(fill="both", expand=True)
-        
-        # Wallpaper canvas
+
         self.canvas = tk.Canvas(self.main, bg=COLORS["bg"], highlightthickness=0)
         self.canvas.pack(fill="both", expand=True)
-        
-        # Generate and display wallpaper
         threading.Thread(target=self._load_wallpaper, daemon=True).start()
-        
-        # Desktop title
+
         self.title_label = ctk.CTkLabel(
             self.canvas, text="UltraOS", 
             font=("Inter", 64, "bold"),
             text_color=COLORS["accent"]
         )
         self.title_label.place(relx=0.5, rely=0.1, anchor="center")
-        
-        # Desktop icons
+
         self._create_desktop_icons()
-        
-        # Taskbar
+
         self._create_taskbar()
         
-        # Start menu
         self._create_start_menu()
     
     def _load_wallpaper(self):
-        """Load wallpaper in background"""
+        """Chargement du wallpaper"""
         try:
             wall = create_wallpaper(1920, 1080)
             # Convert to PhotoImage
