@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-UltraOS v2.023 - Sunsettling Preview (Modern Edition)
-Requires: pip install customtkinter pillow psutil
+UltraOS v2.237 - Sunsettling Preview
+Requires: pip install customtkinter pillow psutil tkhtmlview
 """
 
 import customtkinter as ctk
@@ -68,7 +68,7 @@ class UltraOS:
     def __init__(self, mode="normal"):
         self.root = ctk.CTk()
         self.root.title(f"UltraOS v2.023 - {mode.capitalize()}")
-        self.root.attributes('-fullscreen', True)
+        self.root.attributes('-fullscreen', False)
         self.mode = mode
         self.current_user = os.getenv("USER") or "user"
         self.start_menu_visible = False
@@ -350,7 +350,24 @@ class UltraOS:
         threading.Thread(target=loop_refresh, daemon=True).start()
     
     def open_browser(self):
-        webbrowser.open("https://www.google.com")
+        try:
+            from tkhtmlview import HTMLLabel
+        except ImportError:
+            messagebox.showerror("Missing", "tkhtmlview not installed.\nRun: pip install tkhtmlview")
+            return
+        win = ctk.CTkToplevel(self.root)
+        win.title("UltraWeB")
+        win.geometry("900x600")
+        frame = ctk.CTkFrame(win)
+        frame.pack(fill="both", expand=True)
+        ctk.CTkLabel(frame, text="Browser (0.0.2341)", font=("Inter", 14, "bold")).pack(pady=10)
+        html = """
+        <h1 style='color:#ff3c00'>Web</h1>
+        <p>La fonction web est actuellement en phase de <b>développement<b> et n'est pas 100% publier au publique.</p>
+        <p><i>[Dévelopement: Beta bientot finis]</i></p>
+        """
+        view = HTMLLabel(frame, html=html, background=COLORS["surface"])
+        view.pack(fill="both", expand=True, padx=10, pady=10)
     
     def open_settings(self):
         win = ctk.CTkToplevel(self.root)
@@ -371,8 +388,6 @@ Build: 0783
 License: ULTFRee™ (Limited)
 
 ⚠️ BETA PREVIEW VERSION ⚠️
-
-Modern Edition with CustomTkinter
 """
         ctk.CTkLabel(frame, text=info_text, justify="left").pack(pady=10)
     
