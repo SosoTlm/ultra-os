@@ -14,6 +14,14 @@ OS complet fait en python pour tout les systemes!
 ![SCREENSHOT1_3](screenshots/abcds.png)
 ![SCREENSHOT2_3](screenshots/abcdes.png)
 
+## Guides
+- EN: [UltraOS - Gitbook](https://sosos-softwares-and-games.gitbook.io/ultraos)
+- FR: [UltraOS - Docs](https://ultraos.vercel.app)
+
+## Installation
+- Windows: Releases --> Fennec Fox (2.0) --> app.py
+- (1) Linux: Releases --> Fennec Fox (2.0) --> app.py
+- (2) Linux: Téléchargez l'app.py, l'icon.png et le ultraos.desktop et les mettre sur votre desktop puis lancez ultraos.desktop
 
 ## Dépendances:
 - Tkinter

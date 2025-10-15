@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=UltraOS
+Exec=app.py
+Icon=org.ultraos-project.UltraOS
+Type=Application
+Categories=Utility;

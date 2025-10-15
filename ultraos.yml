@@ -1,0 +1,14 @@
+app-id: org.ultraos-project.UltraOS
+runtime: org.freedesktop.Platform
+runtime-version: "23.08"
+sdk: org.freedesktop.Sdk
+command: ultraos
+modules:
+  - name: ultraos
+    buildsystem: simple
+    build-commands:
+      - pip3 install --prefix=${FLATPAK_DEST} .
+    sources:
+      - type: git
+        url: https://github.com/SosoTlm/ultra-os.git
+        tag: "Fennec-Fox"
