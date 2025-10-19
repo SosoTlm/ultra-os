@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """
-UltraOS v2.237 - Sunsettling Preview
-Requires: pip install customtkinter pillow psutil tkhtmlview
+UltraOS v2.237 - Sunsettling
+Requis: pip install customtkinter pillow psutil pywebview PyQt5 PyQtWebEngine
 """
 
+from PyQt5.QtWidgets import (
+    QApplication, QMainWindow, QTabWidget, QWidget,
+    QVBoxLayout, QPushButton, QLineEdit, QHBoxLayout
+)
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtCore import QUrl
 import customtkinter as ctk
 from tkinter import messagebox, filedialog, scrolledtext
 import tkinter as tk
@@ -16,6 +22,10 @@ from datetime import datetime
 import psutil
 from PIL import Image, ImageDraw
 import io
+import random
+import math
+import sys
+local_file = os.path.abspath("newtab.html")
 
 # Color scheme
 COLORS = {
@@ -25,6 +35,7 @@ COLORS = {
     "accent_hover": "#ff3c00",
     "text": "#ffffff",
     "text_dim": "#ffaa66",
+    "bubble_colors": ["#ff5c33", "#d88e49", "#ec9563", "#a8450b", "#912b02", "#fa9005"]
 }
 
 # Set appearance
@@ -33,34 +44,44 @@ ctk.set_default_color_theme("dark-blue")
 
 
 def create_wallpaper(width=1920, height=1080):
-    """Generate animated graph wallpaper"""
+    """Generate randomized wallpaper with shapes and bubbles."""
     img = Image.new('RGB', (width, height), COLORS["bg"])
-    draw = ImageDraw.Draw(img)
-    
-    # Draw grid
+    draw = ImageDraw.Draw(img, 'RGBA')  # Use RGBA for transparency
+
+    # Optional: draw faint grid (comment out if not needed)
     grid_spacing = 60
     for x in range(0, width, grid_spacing):
-        draw.line([(x, 0), (x, height)], fill="#1a0808", width=1)
+        draw.line([(x, 0), (x, height)], fill="#1a080820", width=1)
     for y in range(0, height, grid_spacing):
-        draw.line([(0, y), (width, y)], fill="#1a0808", width=1)
-    
-    # Draw wave patterns
-    import math
-    for wave in range(3):
+        draw.line([(0, y), (width, y)], fill="#1a080820", width=1)
+
+    # Random wave patterns
+    for wave in range(random.randint(1, 4)):
         points = []
+        wave_height = random.randint(50, 120)
+        wave_color = random.choice(COLORS["bubble_colors"])
+        frequency = random.uniform(0.005, 0.02)
+        offset = random.uniform(0, math.pi * 2)
         for x in range(0, width, 5):
-            y = height // 2 + math.sin(x * 0.01 + wave * 2) * 100 + wave * 50
-            points.append((x, int(y)))
-        draw.line(points, fill=f"#{['ff5c33', 'ff3300', 'cc2200'][wave]}", width=2)
-    
-    # Draw nodes
-    import random
-    random.seed(42)
-    for _ in range(30):
-        x, y = random.randint(0, width), random.randint(0, height)
-        r = random.randint(3, 8)
-        draw.ellipse([x-r, y-r, x+r, y+r], fill=COLORS["accent"])
-    
+            y = int(height // 2 + math.sin(x * frequency + offset) * wave_height + wave * 30)
+            points.append((x, y))
+        draw.line(points, fill=wave_color + "88", width=2)
+
+    # Draw randomized bubbles and shapes
+    for _ in range(random.randint(40, 80)):
+        shape_type = random.choice(["circle", "oval"])
+        x = random.randint(0, width)
+        y = random.randint(0, height)
+        size = random.randint(20, 100)
+        color = random.choice(COLORS["bubble_colors"])
+        alpha = random.randint(60, 180)  # Transparency
+
+        if shape_type == "circle":
+            draw.ellipse([x - size, y - size, x + size, y + size], fill=color + f'{alpha:02x}')
+        elif shape_type == "oval":
+            w, h = size * random.uniform(0.5, 1.5), size * random.uniform(0.5, 1.5)
+            draw.ellipse([x - w, y - h, x + w, y + h], fill=color + f'{alpha:02x}')
+
     return img
 
 
@@ -68,7 +89,7 @@ class UltraOS:
     def __init__(self, mode="normal"):
         self.root = ctk.CTk()
         self.root.title(f"UltraOS v2.023 - {mode.capitalize()}")
-        self.root.attributes('-fullscreen', False)
+        self.root.geometry("1020x780")
         self.mode = mode
         self.current_user = os.getenv("USER") or "user"
         self.start_menu_visible = False
@@ -242,6 +263,28 @@ class UltraOS:
         text.bind("<Return>", execute)
         text.focus()
     
+    def open_settings(self):
+        win = ctk.CTkToplevel(self.root)
+        win.title("Settings")
+        win.geometry("500x400")
+        
+        frame = ctk.CTkFrame(win)
+        frame.pack(fill="both", expand=True, padx=20, pady=20)
+        
+        ctk.CTkLabel(
+            frame, text="UltraOS Settings",
+            font=("Inter", 24, "bold"),
+            text_color=COLORS["accent"]
+        ).pack(pady=20)
+        
+        info_text = """UltraOS Version 2.023 Sunsettling
+Build: 0783
+License: ULTFRee™ (Limited)
+
+⚠️ BETA PREVIEW VERSION ⚠️
+"""
+        ctk.CTkLabel(frame, text=info_text, justify="left").pack(pady=10)
+
     def open_file_manager(self):
         win = ctk.CTkToplevel(self.root)
         win.title("File Manager")
@@ -307,6 +350,16 @@ class UltraOS:
         btn_frame.pack(fill="x", pady=5)
         ctk.CTkButton(btn_frame, text="💾 Save", command=save_file).pack(side="left", padx=5)
     
+    def open_browser(self):
+                    # Run PyQt browser in a separate thread to avoid blocking tkinter mainloop
+                    def launch_browser():
+                             app = QApplication(sys.argv)
+                             browser = UltraTabbedBrowser()
+                             browser.show()
+                             app.exec_()
+        
+                    threading.Thread(target=launch_browser, daemon=True).start()
+    
     def open_task_manager(self):
         win = ctk.CTkToplevel(self.root)
         win.title("Task Manager")
@@ -341,48 +394,6 @@ class UltraOS:
         
         threading.Thread(target=loop_refresh, daemon=True).start()
     
-    def open_browser(self):
-        try:
-            from tkhtmlview import HTMLLabel
-        except ImportError:
-            messagebox.showerror("Missing", "tkhtmlview not installed.\nRun: pip install tkhtmlview")
-            return
-        win = ctk.CTkToplevel(self.root)
-        win.title("UltraWeB")
-        win.geometry("900x600")
-        frame = ctk.CTkFrame(win)
-        frame.pack(fill="both", expand=True)
-        ctk.CTkLabel(frame, text="Browser (0.0.2341)", font=("Inter", 14, "bold")).pack(pady=10)
-        html = """
-        <h1 style='color:#ff3c00'>Web</h1>
-        <p>La fonction web est actuellement en phase de <b>développement<b> et n'est pas 100% publier au publique.</p>
-        <p><i>[Dévelopement: Beta bientot finis]</i></p>
-        """
-        view = HTMLLabel(frame, html=html, background=COLORS["surface"])
-        view.pack(fill="both", expand=True, padx=10, pady=10)
-    
-    def open_settings(self):
-        win = ctk.CTkToplevel(self.root)
-        win.title("Settings")
-        win.geometry("500x400")
-        
-        frame = ctk.CTkFrame(win)
-        frame.pack(fill="both", expand=True, padx=20, pady=20)
-        
-        ctk.CTkLabel(
-            frame, text="UltraOS Settings",
-            font=("Inter", 24, "bold"),
-            text_color=COLORS["accent"]
-        ).pack(pady=20)
-        
-        info_text = """UltraOS Version 2.023 Sunsettling
-Build: 0783
-License: ULTFRee™ (Limited)
-
-⚠️ BETA PREVIEW VERSION ⚠️
-"""
-        ctk.CTkLabel(frame, text=info_text, justify="left").pack(pady=10)
-    
     def run(self):
         self.root.mainloop()
 
@@ -414,6 +425,57 @@ def boot_menu():
         ).pack(pady=10)
     
     boot.mainloop()
+
+class BrowserTab(QWidget):
+    def __init__(self, url=None):
+        super().__init__()
+        layout = QVBoxLayout(self)
+
+        # Create browser view
+        self.browser = QWebEngineView()
+
+        if url:
+            qurl = QUrl(url)
+            self.browser.setUrl(qurl)
+
+        # Address bar
+        self.url_bar = QLineEdit()
+        if url:
+            self.url_bar.setText(url)
+        self.url_bar.returnPressed.connect(self.load_url)
+
+        layout.addWidget(self.url_bar)
+        layout.addWidget(self.browser)
+
+    def load_url(self):
+        url = self.url_bar.text()
+        if not url.startswith("http"):
+            url = "https://" + url
+        self.browser.setUrl(QUrl(url))
+
+
+class UltraTabbedBrowser(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("UltraWeB")
+        self.setGeometry(300, 100, 1000, 700)
+
+        self.tabs = QTabWidget()
+        self.setCentralWidget(self.tabs)
+
+        # Add first tab
+        self.add_tab(f"file:///{local_file.replace(os.sep, '/')}")
+
+        # Add button to open new tab
+        new_tab_btn = QPushButton("➕ New Tab")
+        new_tab_btn.clicked.connect(lambda: self.add_tab(f"file:///{local_file.replace(os.sep, '/')}"))
+
+        self.tabs.setCornerWidget(new_tab_btn)
+
+    def add_tab(self, url):
+        new_tab = BrowserTab(url)
+        index = self.tabs.addTab(new_tab, "Tab")
+        self.tabs.setCurrentIndex(index)
 
 
 if __name__ == "__main__":

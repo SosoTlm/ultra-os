@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Qu'allez vous recherchez?</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0404;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      color: #ff5c33;
+      font-size: 3em;
+      margin-bottom: 0.2em;
+    }
+
+    #clock {
+      font-size: 1.2em;
+      color: #ffaa66;
+      margin-bottom: 1.5em;
+    }
+
+    .links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .links a {
+      background-color: #1a0f0f;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+    }
+
+    .links a:hover {
+      background-color: #ff3c00;
+    }
+
+    .search-box {
+      margin-top: 30px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 16px;
+      background-color: #ff5c33;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      margin-left: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #ff3c00;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bonjour!</h1>
+  <div id="clock">Loading time...</div>
+
+  <div class="links">
+    <a href="https://ultraos.vercel.app/" target="_blank">Guide</a>
+    <a href="https://github.com/SosoTlm" target="_blank">GitHub</a>
+    <a href="https://www.google.com" target="_blank">Google</a>
+  </div>
+
+  <div class="search-box">
+    <form action="https://www.google.com/search" method="GET" target="_blank">
+      <input type="text" name="q" placeholder="Recherchez...">
+      <button type="submit">🔍</button>
+    </form>
+  </div>
+
+  <script>
+    function updateClock() {
+      const clock = document.getElementById("clock");
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString();
+      clock.textContent = timeStr;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // initial call
+  </script>
+</body>
+</html>
