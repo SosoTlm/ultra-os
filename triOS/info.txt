@@ -1,0 +1,28 @@
+SosoTlm
+Soso's Softwares & Games
+Made: October 27 2025
+
+======================= TriOS =====================
+Based_Off: MenuetOS 32bit
+Description: TriOS is a modern operating system based-off MenuetOS 32bit (open source).
+Some icons have been redesigned and the operating system can handle max 4GB RAM.
+Current_State: Development
+Release_Name: Triangular
+Verison_Number: 0.23.9
+===================================================
+===================== UltraOS =====================
+Based_Off: Nothing
+Description: UltraOS is a french operating system made in py.
+It uses primarly customtkinter for it's sleek & modern interface
+and other packages for it's internal components.
+Current_State: Fennec Fox EOS has been confirmed.
+Release_Name: Sunsettling
+Verison_Number: 2.237.0
+===================================================
+About Organisation:
+Soso's Softwares & Games(TM) is a group of developers creating and maintening games
+and softwares for the public. It's a group making Free Open-Sourced Software (FOSS)
+and releasing them to the public!
+
+Objective:
+Making a full os from scratch or based-off a prebuilt system (Active)

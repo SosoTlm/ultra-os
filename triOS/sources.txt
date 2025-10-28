@@ -1,0 +1,15 @@
+Here is usefull informations to know about triOS/srces
+======================================================
+triOS/srces:
+Directory contains EVERY SINGLE files of the decompiled operating system
+named TriOS. It includes it's icons, it's apps etc...
+
+Please do not take this sources and republishing it using it's assets without remaking them
+and not even modifying .asm to include your os name.
+======================================================
+!WARNING!
+
+This part of the operating system is FRAGILE!
+Please be careful when modifying it and remaking it.
+
+The triOS/srces directory contains sensitive and important operating system files!
